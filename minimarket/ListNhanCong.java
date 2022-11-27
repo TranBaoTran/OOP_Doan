@@ -1,5 +1,10 @@
 package minimarket;
 
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.util.Random;
 import java.util.Scanner;
 
 public class ListNhanCong {
@@ -87,7 +92,7 @@ public class ListNhanCong {
 
     public void output_List(){
         System.out.println("Danh sach toan bo nhan cong : ");
-        System.out.printf("%-10s %-20s %-20s %-20s %-20s \n","Ma","Ten","SDT","Ngay BD","Luong");
+        //System.out.printf("%-10s %-20s %-20s %-20s %-20s \n","Ma","Ten","SDT","Ngay BD","Luong");
         for(int i=0;i<List.length;i++)
         {
             System.out.println(List[i].toString());
@@ -96,7 +101,11 @@ public class ListNhanCong {
 
     public Nhancong[] AddList1(){
         int choice;
-        Nhancong a = new Nhancong() {};
+        Nhancong a = new Nhancong() {
+            public long Luong(){
+                return 0;
+            }
+        };
         boolean flag=true;
         System.out.println("1.Quan ly\n"+"2.Nhan vien\n");
         System.out.print("Hay chon kieu nhan cong muon them :");
@@ -132,7 +141,7 @@ public class ListNhanCong {
         }
         Copied[List.length]=a;
         n=n+1;
-        System.out.println("Them san pham thanh cong !");
+        System.out.println("Them nhan cong thanh cong !");
         return Copied;
     }
 
@@ -153,7 +162,11 @@ public class ListNhanCong {
         for(i=0;i<k;i++)
         {
             System.out.printf("Nhap thong tin cua nhan cong thu %d can them: \n",i+1);
-            Nhancong a=new Nhancong() {};
+            Nhancong a=new Nhancong() {
+                public long Luong(){
+                    return 0;
+                }
+            };
             boolean flag=true;
             System.out.println("1.Quan ly\n"+"2.Nhan vien\n");
             System.out.print("Hay chon lai nhan cong muon them :");
@@ -185,19 +198,19 @@ public class ListNhanCong {
             Copied[t++]=a;
         }
         n=t;
-        System.out.println("Them san pham thanh cong !");
+        System.out.println("Them nhan cong thanh cong !");
         return Copied;
     }
 
     public Nhancong[] Delete(){
         int i,temp=-1;
-        long k;
+        String ma;
         while(true){
             System.out.println("Nhap ma so san pham can xoa :");
-            k=Long.parseLong(sc.nextLine());
+            ma=sc.nextLine();
             for(i=0;i<List.length;i++)
             {
-            if(List[i].MaNC==k){
+            if(ma.equals(List[i].MaNC)){
                 temp=i;
                 break;
                 }
@@ -221,7 +234,150 @@ public class ListNhanCong {
             Copied[i-1]=List[i];
         }
         n=n-1;
-        System.out.println("Xoa san pham thanh cong !");
+        System.out.println("Xoa nhan cong thanh cong !");
         return Copied;
     }
+
+    public void search()
+    {
+        String id;
+        System.out.print("Nhap ma nhan cong can tim: ");
+        id = sc.nextLine();
+        int count = 0;
+        for (int i=0;i<List.length;i++)
+        {
+            if (id.equals(List[i].MaNC))
+            {
+                System.out.print(List[i].toString());
+                count++;    
+            }
+        }
+        if (count == 0)
+            System.out.println("Khong co nguoi nay trong danh sach nhan su.");
+    }
+
+    public void readFILE(){
+        try{
+            FileReader fp = new FileReader("NC.txt");
+            BufferedReader br = new BufferedReader(fp);
+            String line="";
+            line = br.readLine();
+            String tmp[] = line.split(" ");
+            n = Integer.parseInt(tmp[1]);
+            //n = count;
+            int d,m,y,i=0;
+            List = new Nhancong[n];
+            while(true){
+                line = br.readLine();
+                if(line == null){
+                    break;
+                }
+                String txt[] = line.split(",");
+                String ID = txt[0];
+                String Name = txt[1];
+                String SDT = txt[2];
+                String NBD = txt[3];
+                d=Integer.parseInt(NBD.substring(0,2));
+                m=Integer.parseInt(NBD.substring(2,4));
+                y=Integer.parseInt(NBD.substring(4));
+                Date NgayBD= new Date(d,m,y);
+                if(ID.substring(0,2).equals("QL"))
+                {
+                    String KinhNghiem = txt[4];
+                    String rest = txt[5];
+                    List[i] = new QuanLy(ID,Name,SDT,NgayBD,Integer.parseInt(KinhNghiem),Integer.parseInt(rest));
+                }
+                if(ID.substring(0,2).equals("NV"))
+                {
+                    String ca = txt[4];
+                    String vaiTro = txt[5];
+                    List[i] = new NhanVien(ID,Name,SDT,NgayBD,Integer.parseInt(ca),vaiTro);
+                }
+                i++;
+            }
+            br.close();
+            fp.close();
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+    }
+
+    public Nhancong randomTN()
+    {
+        Nhancong nv = new NhanVien();
+        Random rand = new Random();
+        int flag = 1;
+        do {
+            int key = rand.nextInt(n);
+            if (List[key] instanceof NhanVien){
+                nv = List[key];
+                flag = 0;
+                break;
+            }
+        }while(flag == 1);
+        return nv;
+    }
+
+    public void writeFILE(){
+        try{
+            FileWriter fw = new FileWriter("NC_W.txt");
+            BufferedWriter bw = new BufferedWriter(fw);
+            bw.write("\tDanh sach nhan cong : \n\n");
+            bw.write(String.format("%-10s %-20s %-20s %-20s\n","Ma","Ten","SDT","Ngay bat dau lam"));
+            for(int i=0;i<List.length;i++)
+            {
+                bw.write(List[i].toStringO());
+                bw.newLine();
+            }
+            bw.newLine();
+            bw.newLine();
+            bw.write("\tDanh sach Quan ly: \n\n");
+            bw.write(String.format("%-10s %-20s %-20s %-20s %-15s %-20s %-20s\n","Ma","Ten","SDT","Ngay bat dau lam","Kinh nghiem","So ngay nghi","Luong"));
+            for(int i=0;i<List.length;i++)
+            {
+                if(List[i] instanceof QuanLy){
+                    bw.write(List[i].toString());
+                    bw.newLine();
+                }
+            }
+            bw.newLine();
+            bw.newLine();
+            bw.write("\tDanh sach nhan vien: \n\n");
+            bw.write(String.format("%-10s %-20s %-20s %-20s %-15s %-20s %-20s\n","Ma","Ten","SDT","Ngay bat dau lam","So ca lam","Vai tro","Luong"));
+            for(int i=0;i<List.length;i++)
+            {
+                if(List[i] instanceof NhanVien){
+                    bw.write(List[i].toString());
+                    bw.newLine();
+                }
+            }
+            bw.close();
+            fw.close();
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+    }
+    
+    //Thong ke
+    public void ThongKe(){
+        long luong=0, luongnv=0, luongql=0, rest=0, ca=0,k=0,j=0;
+        for (int i=0;i<List.length;i++)
+        {
+            luong += List[i].Luong();
+            if (List[i] instanceof QuanLy){
+                rest += ((QuanLy)List[i]).getRest();
+                luongql += ((QuanLy)List[i]).Luong();
+                k++;
+            }
+            if (List[i] instanceof NhanVien)
+            {
+                ca += ((NhanVien)List[i]).getCa();
+                luongnv += ((NhanVien)List[i]).Luong();  
+                j++;
+            }  
+        }
+        System.out.printf("%-20s %10s %25s %35s %35s\n","Luong TB","Luong TB quan li","Luong TB nhan vien","So ngay nghi TB quan li","So ca lam TB nhan vien");
+        System.out.printf("%-20s %10s %25s %35s %35s\n",luong/n,luongql/k,luongnv/j,rest/k,ca/j);
+    }
+
 }

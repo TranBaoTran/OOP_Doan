@@ -479,41 +479,60 @@ public class Kho {
         return Copied;
     }
 
+    public Sanpham[] DeleteWithout(int temp){
+        int i;
+        Sanpham Copied[]=new Sanpham[List.length-1];
+        for(i=0;i<temp;i++)
+        {
+            Copied[i]=List[i];
+        }
+        for(i=temp+1;i<List.length;i++)
+        {
+            Copied[i-1]=List[i];
+        }
+        n=n-1;
+        return Copied;
+    }
+
     public Sanpham[] adjust() {
     	boolean flag=false;
+    	boolean kiemTraMaTonTai;
     	byte choice=0;
     	int viTri=0;
-    	for(int i=0;i<List.length;i++) {
-    		System.out.print("San pham thu "+(i+1)+" : ");
-    		List[i].toStringL();
-    		do {
-    			System.out.print("Thay doi thong tin hay khong? (0. Khong || 1. Co) : ");
-        		choice = Byte.parseByte(sc.nextLine());
-        		if (choice != 1 && choice !=0) System.out.println("Vui long nhap lai!");
-    		}while (choice != 1 && choice !=0);
-    		
-    		if (choice == 1) {
-    			flag = true;
-    			viTri = i;
-    			break;
-    		}
-    	}
+    	String maTimKiem = "";
+    	do {
+    		kiemTraMaTonTai=false;
+    		System.out.print("Nhap ma san pham can tim : ");
+        	maTimKiem = sc.nextLine();
+        	for(int i=0;i<List.length;i++) {
+        		if (maTimKiem.equals(List[i].getMaSP())) {
+        			viTri = i;
+        			flag = true;
+        		}
+        	}
+        	if ((!maTimKiem.substring(0,2).equals("MP") || !maTimKiem.substring(0,2).equals("TT") || !maTimKiem.substring(0,2).equals("PP") || !maTimKiem.substring(0,2).equals("TP") || !maTimKiem.substring(0,2).equals("TU")) && maTimKiem.substring(2).length()!=3 || !flag) 
+        	{	
+        		System.out.println("Dinh dang ma san pham khong dung hoac ma khong ton tai! Vui long nhap lai!");
+        		flag = false;
+        	}
+        	else kiemTraMaTonTai = true;
+    	}while (!kiemTraMaTonTai);
     	if (flag) {
     		choice = 0;
-    		System.out.println("\n\n-Thong tin thay doi :");
+    		System.out.println("\n\n-Thong tin can thay doi :");
     		System.out.println("1. Thong tin chung");
     		System.out.println("2. Thong tin rieng cua san pham");
     		System.out.println("3. Toan bo thong tin");
-    		System.out.println("0 hoac Enter. Thoat khong thay doi nua");
+    		System.out.println("0 hoac Enter. Thoat, khong thay doi nưa");
     		do {
     			System.out.print("Lua chon cua ban : ");
     			choice = Byte.parseByte(sc.nextLine());
-    			if (choice < 0 || choice >3) System.out.println("Lua chon khong phu hop moi nhap lai");
+    			if (choice < 0 || choice >3) System.out.println("Lua chon khong phu hop! Moi nhap lai");
     		}while (choice < 0 || choice >3);
     		if (choice == 1) {
     			byte luaChon=0;
-    			System.out.println("\n1. Thay doi || Con lai. Khong thay doi");
-    			System.out.print("\nThay doi ten :"); // Doi ten
+    			System.out.println("\n1. Thay doi|| Other. Khong thay doi");
+    			System.out.print("\nThay doi ten? :"); // Doi ten
     			luaChon = Byte.parseByte(sc.nextLine());
     			if (luaChon == 1) {
     				System.out.print("Hay nhap ten san pham : ");
@@ -553,7 +572,7 @@ public class Kho {
     				luaChon = 0;
     			}
     			
-    			System.out.print("\nThay doi so luong :"); // Doi so luong
+    			System.out.print("\nThay doi so luong? :"); // Doi so luong
     			luaChon = Byte.parseByte(sc.nextLine());
     			if (luaChon == 1) {
     				System.out.print("Hay nhap so luong : ");
@@ -563,18 +582,18 @@ public class Kho {
     		}
     		else if (choice == 2) {
     			byte luaChon=0;
-    			System.out.println("\n1. Thay doi || Con lai. Khong thay doi");
+    			System.out.println("\n1. Thay doi || Other. Khong thay doi");
     			
     			if (List[viTri] instanceof MyPham) { // MỸ PHẨM
-    				System.out.print("\nThay đổi loại? :");
+    				System.out.print("\nThay doi loai? :");
         			luaChon = Byte.parseByte(sc.nextLine());
         			if (luaChon == 1) {
-        				System.out.print("Hãy nhập loại mỹ phẩm : ");
+        				System.out.print("Hay nhap loai my pham : ");
         				((MyPham) List[viTri]).setLoai(sc.nextLine());
         			}
     			}
     			else if (List[viTri] instanceof ThoiTrang) { //THỜI TRANG
-    				System.out.print("\nThay đổi giới tính? :");
+    				System.out.print("\nThay doi gioi tinh? :");
         			luaChon = Byte.parseByte(sc.nextLine());
         			if (luaChon == 1) {
         				boolean check=true;
@@ -645,8 +664,187 @@ public class Kho {
     		else if (choice == 3) {
     			List[viTri].Input();
     		}
-    	} 	
+    	}
+    	
     	return List;
     }
 
+    public void searchH_G(){
+        String brand;
+        long fee1, fee2;
+        System.out.print("Nhap hang san xuat cua san pham: ");
+        brand = sc.nextLine();
+        System.out.print("Nhap gia toi thieu cua san pham: ");
+        fee1 = Long.parseLong(sc.nextLine());
+        System.out.print("Nhap gia cao nhat cua san pham: ");
+        fee2 = Long.parseLong(sc.nextLine());
+        int count = 0;
+        for (int i=0;i<n;i++)
+        {
+            if (brand.equals(List[i].Hang) && (fee1<=List[i].Gia && fee2>=List[i].Gia))
+            {
+                System.out.println(List[i].toString());
+                count++;
+            }
+        }
+        if (count == 0)
+            System.out.println("Hien khong co san pham ban tim trong kho.");
+    }
+    public void searchTL(){
+        int ch;
+        Boolean key = true;
+        do{
+            System.out.println("1.Tim san pham theo hang san xuat va gia\n"+"2.Tim my pham theo hang va loai\n"+"3.Tim trang phuc theo gioi tinh va hang\n"+"4.Tim van phong pham theo chat lieu va doi tuong\n"+"5.Tim thuc pham theo cach che bien va gia\n"+"6.Tim thuc uong theo loai va cach dong goi");
+            System.out.print("Nhap lua chon cua ban: ");
+            ch = Integer.parseInt(sc.nextLine());
+            switch (ch){
+                case 1:
+                {
+                    searchH_G();
+                    key = false;
+                    break;
+                }
+                case 2:
+                {
+                    String brand,type;
+                    System.out.print("Nhap hang san xuat cua san pham: ");
+                    brand = sc.nextLine();
+                    System.out.print("Nhap loai my pham: ");
+                    type = sc.nextLine();
+                    int count = 0;
+                    for (int i=0;i<n;i++)
+                    {
+                        if (List[i] instanceof MyPham)
+                        {
+                            String brandr = List[i].Hang();
+                            String Loair = List[i].Loai();
+                            if (brand.equals(brandr) && type.equals(Loair))
+                            {
+                                System.out.println(List[i].toStringL());
+                                count++;
+                            }
+                        }
+                    }
+                    if (count == 0)
+                        System.out.println("Hien khong co san pham ban tim trong kho.");
+                    key = false;      
+                    break;         
+                }
+                case 3:
+                {
+                    String brand;
+                    int sex; 
+                    System.out.print("Nhap hang san xuat cua trang phuc: ");
+                    brand = sc.nextLine();
+                    do{
+                        System.out.print("Nhap gioi tinh trang phuc (Nam: 1|Nu: 0): ");
+                        sex = Integer.parseInt(sc.nextLine());
+                    }while (sex!=0 && sex!=1);
+                    int count = 0;
+                    for (int i=0;i<n;i++)
+                    {
+                        if (List[i] instanceof ThoiTrang)
+                        {
+                            String brandr = List[i].Hang();
+                            int sexr = List[i].GioiTinh();
+                            if (brand.equals(brandr) && sex==sexr)
+                            {
+                                System.out.println(List[i].toStringL());
+                                count++;
+                            }
+                        }
+                    }
+                    if (count == 0)
+                        System.out.print("Hien khong co san pham ban tim trong kho.");
+                    key = false;    
+                    break;    
+                }
+                case 4:
+                {
+                    String material,ob;
+                    System.out.print("Nhap chat lieu san pham: ");
+                    material = sc.nextLine();
+                    System.out.print("Nhap doi tuong su dung: ");
+                    ob = sc.nextLine();
+                    int count = 0;
+                    for (int i=0;i<n;i++)
+                    {
+                        if (List[i] instanceof VPPham)
+                        {
+                            String mar = List[i].ChatLieu();
+                            String obr = List[i].DoiTuong();
+                            if (material.equals(mar) && ob.equals(obr))
+                            {
+                                System.out.println(List[i].toStringL());
+                                count++;
+                            }
+                        }
+                    }
+                    if (count == 0)
+                        System.out.print("Hien khong co san pham ban tim trong kho.");
+                    key = false;    
+                    break;    
+                }
+                case 5:
+                {
+                    long fee1, fee2;
+                    String cb;
+                    System.out.print("Nhap cach che bien: ");
+                    cb = sc.nextLine();
+                    System.out.print("Nhap gia khoi diem: ");
+                    fee1 = Integer.parseInt(sc.nextLine());
+                    System.out.print("Nhap gia toi da: ");
+                    fee2 = Integer.parseInt(sc.nextLine());
+                    int count = 0;
+                    for (int i=0;i<n;i++)
+                    {
+                        if (List[i] instanceof ThucPham)
+                        {
+                            String cbr = List[i].CheBien();
+                            if (cb.equals(cbr) && (fee1<=List[i].Gia && fee2>=List[i].Gia))
+                            {
+                                System.out.println(List[i].toStringL());
+                                count++;
+                            }
+                        }
+                    }
+                    if (count == 0)
+                        System.out.print("Hien khong co san pham ban tim trong kho.");
+                    key = false;    
+                    break;
+                }
+                case 6:
+                {
+                    String type,dg;
+                    System.out.print("Nhap loai thuc uong: ");
+                    type = sc.nextLine();
+                    System.out.print("Nhap phuong thuc dong goi: ");
+                    dg = sc.nextLine();
+                    int count = 0;
+                    for (int i=0;i<n;i++)
+                    {
+                        if (List[i] instanceof ThucUong)
+                        {
+                            String typer = List[i].Loai();
+                            String dgr = List[i].DongGoi();
+                            if (type.equals(typer) && dg.equals(dgr))
+                            {
+                                System.out.println(List[i].toStringL());
+                                count++;
+                            }
+                        }
+                    }
+                    if (count == 0)
+                        System.out.print("Hien khong co san pham ban tim trong kho.");
+                    key = false;    
+                    break;
+                }
+                default:
+                {
+                    System.out.println("Khong co lua chon nay, moi chon lai!");
+                    break;
+                }
+            }
+        }while(key);    
+    }
 }

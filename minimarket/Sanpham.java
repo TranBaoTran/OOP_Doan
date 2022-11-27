@@ -183,6 +183,27 @@ public class Sanpham {
         return "0";
     }
 
+    public String Hang(){
+        return null;
+    }
+    public String Loai(){
+        return null;
+    }
+    public int GioiTinh(){
+        return 0;
+    }
+    public String ChatLieu(){
+        return null;
+    }
+    public String DoiTuong(){
+        return null;
+    }
+    public String CheBien(){
+        return null;
+    }
+    public String DongGoi(){
+        return null;
+    }
 }
 
 class MyPham extends Sanpham{
@@ -263,14 +284,16 @@ class ThoiTrang extends Sanpham{
     public void Input(){
         super.Input();
         boolean flag=true;
+        String temp;
         do{
         System.out.println("Hay nhap gioi tinh ( 1:Nam || 0:Nu )");
-        if(sc.nextLine().equals("1"))
+        temp=sc.nextLine();
+        if(temp.equals("1"))
         {
             GioiTinh=true;
             flag=false;
         }
-        else if(sc.nextLine().equals("0"))
+        else if(temp.equals("0"))
         {
             GioiTinh=false;
             flag=false;

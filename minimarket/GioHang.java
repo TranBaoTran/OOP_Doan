@@ -282,10 +282,10 @@ class GioHangList{
         System.out.printf("%-10s %-50s %-20s\n","Ma don","Thoi gian than toan","Thanh tien");
         for(i=0;i<List.length;i++)
         {
-            System.out.printf("%-10s %-50s %-20s\n",List[i].n,List[i].Date,List[i].Total);
+            System.out.printf("%-10s %-50s %-20s\n",List[i].MaHĐ,List[i].Date,List[i].Total);
             Total=Total+List[i].Total;
         }
-        System.out.println("||==========================================||");
+        System.out.println("||===========================================================||");
         System.out.printf("Tong danh thu: %d\n",Total);
     }
 

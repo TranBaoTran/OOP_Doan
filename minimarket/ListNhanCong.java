@@ -70,7 +70,7 @@ public class ListNhanCong implements subMenu{
 
     public void output_ListQL(){
         System.out.println("Danh sach cac quan ly : ");
-        System.out.printf("%-10s %-20s %-20s %-20s %-20s %-10s\n","Ma","Ten","SDT","Ngay BD","Luong","Kinh nghiem");
+        System.out.printf("%-10s %-20s %-20s %-19s %-20s %-20s %s \n","Ma","Ten","SDT","Ngay BD","Kinh nghiem","So ngay nghi","Luong");
         for(int i=0;i<List.length;i++)
         {
             if(List[i] instanceof QuanLy)
@@ -82,7 +82,7 @@ public class ListNhanCong implements subMenu{
 
     public void output_ListNV(){
         System.out.println("Danh sach cac nhan vien : ");
-        System.out.printf("%-10s %-20s %-20s %-20s %-20s %-10s %-15s \n","Ma","Ten","SDT","Ngay BD","Luong","Ca","Vai tro");
+        System.out.printf("%-10s %-20s %-20s %-19s %-15s %-20s %-15s \n","Ma","Ten","SDT","Ngay BD","Luong","Ca","Vai tro");
         for(int i=0;i<List.length;i++)
         {
             if(List[i] instanceof NhanVien)

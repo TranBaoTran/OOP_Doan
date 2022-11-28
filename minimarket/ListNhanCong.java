@@ -7,9 +7,11 @@ import java.io.FileWriter;
 import java.util.Random;
 import java.util.Scanner;
 
-public class ListNhanCong {
+public class ListNhanCong implements subMenu{
 	private int n;
     Nhancong List[];
+    private static String readF="NC_R.txt";
+    private static String writeF="NC_W.txt";
     Scanner sc=new Scanner(System.in);
 
     public int Getn(){
@@ -258,7 +260,7 @@ public class ListNhanCong {
 
     public void readFILE(){
         try{
-            FileReader fp = new FileReader("NC.txt");
+            FileReader fp = new FileReader(readF);
             BufferedReader br = new BufferedReader(fp);
             String line="";
             line = br.readLine();
@@ -302,6 +304,23 @@ public class ListNhanCong {
         }
     }
 
+    public void rewriteFILE(){
+        int i;
+        try{
+            FileWriter fw = new FileWriter(readF);
+            BufferedWriter bw = new BufferedWriter(fw);
+            bw.write("SL: "+List.length);
+            for(i=0;i<List.length;i++)
+            {
+                bw.write("\n"+List[i].toStringRE());
+            }
+            bw.close();
+            fw.close();
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+    }
+
     public Nhancong randomTN()
     {
         Nhancong nv = new NhanVien();
@@ -320,13 +339,13 @@ public class ListNhanCong {
 
     public void writeFILE(){
         try{
-            FileWriter fw = new FileWriter("NC_W.txt");
+            FileWriter fw = new FileWriter(writeF);
             BufferedWriter bw = new BufferedWriter(fw);
             bw.write("\tDanh sach nhan cong : \n\n");
             bw.write(String.format("%-10s %-20s %-20s %-20s\n","Ma","Ten","SDT","Ngay bat dau lam"));
             for(int i=0;i<List.length;i++)
             {
-                bw.write(List[i].toStringO());
+                bw.write(List[i].toStringL());
                 bw.newLine();
             }
             bw.newLine();

@@ -74,12 +74,16 @@ abstract public class Nhancong {
         return String.format("%-10s %-20s %-20s %-20s",MaNC,Ten,SDT,NgayBD.outputDATE());
     }
     
-    public String toStringO()
+    public String toStringL()
     {
         return String.format("%-10s %-20s %-20s %-20s",MaNC,Ten,SDT,NgayBD.outputDATE());
     }
 
     public abstract long Luong();
+
+    public String toStringRE(){
+        return String.format("%s,%s,%s,%s",MaNC,Ten,SDT,NgayBD.Rewrite());
+    }
 
 }
 
@@ -143,6 +147,11 @@ class NhanVien extends Nhancong
     {
         Luong = Ca*100000;
         return Luong;
+    }
+
+    @Override
+    public String toStringRE(){
+        return super.toStringRE()+String.format(",%d,%s",Ca,VaiTro);
     }
 }
 
@@ -213,5 +222,10 @@ class QuanLy extends Nhancong{
         else if (rest > 6)
             Luong = 0;
         return Luong;    
+    }
+
+    @Override
+    public String toStringRE(){
+        return super.toStringRE()+String.format(",%d,%d",KinhNghiem,rest);
     }
 } 

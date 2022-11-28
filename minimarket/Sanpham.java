@@ -70,6 +70,29 @@ class Date{
         if(d==0 && m==0 && y==0) return String.format(" ");
         return String.format("%d/%d/%d",d,m,y);
     }
+
+    public String Rewrite(){
+        if(d<10 && d>0)
+        {
+            if(m<10 && m>0)
+            {
+                return String.format("0%d0%d%d",d,m,y);
+            }
+            else if(m>9)
+            {
+                return String.format("0%d%d%d",d,m,y);
+            }
+        }
+        else if (d>9 && m<10 && m>0)
+        {
+                return String.format("%d0%d%d",d,m,y);
+        }
+        if(d==0)
+        {
+            return "00000000";
+        }
+        return String.format("%d%d%d",d,m,y);
+    }
 }
 
 public class Sanpham {
@@ -183,6 +206,12 @@ public class Sanpham {
         return "0";
     }
 
+    public String toStringRE(){
+        
+        return String.format("%s,%s,%s,%s,%s,%d,%d",MaSP,Ten,NSX.Rewrite(),HSD.Rewrite(),Hang,Sl,Gia);
+        
+    }
+
     public String Hang(){
         return null;
     }
@@ -247,6 +276,10 @@ class MyPham extends Sanpham{
         return super.toString()+String.format(" %-20s",Loai);
     }
 
+    @Override
+    public String toStringRE(){
+        return super.toStringRE()+String.format(",%s",Loai);
+    }
 }
 
 class ThoiTrang extends Sanpham{
@@ -315,6 +348,11 @@ class ThoiTrang extends Sanpham{
             return super.toString()+String.format(" %-15s","Nu");
         }
     }
+
+    @Override
+    public String toStringRE(){
+        return super.toStringRE()+String.format(",%s",GioiTinh);
+    }
 }
 
 class VPPham extends Sanpham{
@@ -370,6 +408,11 @@ class VPPham extends Sanpham{
         return super.toString()+String.format(" %-20s %-20s",ChatLieu,DoiTuong);
     }
 
+    @Override
+    public String toStringRE(){
+        return super.toStringRE()+String.format(",%s,%s",ChatLieu,DoiTuong);
+    }
+
 }
 
 class ThucPham extends Sanpham{
@@ -411,7 +454,12 @@ class ThucPham extends Sanpham{
     @Override
     public String toStringL(){
         return super.toString()+String.format(" %-20s",CheBien);
-    }   
+    }
+    
+    @Override
+    public String toStringRE(){
+        return super.toStringRE()+String.format(",%s",CheBien);
+    }
 }
 
 class ThucUong extends Sanpham{
@@ -465,5 +513,10 @@ class ThucUong extends Sanpham{
     @Override
     public String toStringL(){
         return super.toString()+String.format(" %-20s -%20s",Loai,DongGoi);
+    }
+
+    @Override
+    public String toStringRE(){
+        return super.toStringRE()+String.format(",%s,%s",Loai,DongGoi);
     }
 }

@@ -6,11 +6,12 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.util.Scanner;
 
-
-public class Kho {
+public class Kho implements subMenu{
     private int n;
     Sanpham List[];
     Scanner sc=new Scanner(System.in);
+    private static String readF="SP_R.txt";
+    private static String writeF="SP_W.txt";
 
     public int Getn(){
         return n;
@@ -89,7 +90,7 @@ public class Kho {
 
     public void readFILE(){
         try{
-            FileReader fr =new FileReader("SP_R.txt");
+            FileReader fr =new FileReader(readF);
             BufferedReader br=new BufferedReader(fr);
             String line="";
             line=br.readLine();
@@ -164,9 +165,26 @@ public class Kho {
         }
     }
     
+    public void rewriteFILE(){
+        int i;
+        try{
+            FileWriter fr=new FileWriter(readF);
+            BufferedWriter br=new BufferedWriter(fr);
+            br.write("Total: "+List.length);
+            for(i=0;i<List.length;i++)
+            {
+                br.write("\n"+List[i].toStringRE());
+            }
+            br.close();
+            fr.close();
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+    }
+
     public void writeFILE(){
         try{
-            FileWriter fw=new FileWriter("SP_W.txt");
+            FileWriter fw=new FileWriter(writeF);
             BufferedWriter bw=new BufferedWriter(fw);
             bw.write("\tDanh sach cac mat hang trong kho : \n\n");
             bw.write(String.format("%-10s %-50s %-20s %-20s %-20s %-10s %-15s\n","Ma","Ten","NSX","HSD","Hang","SL","Gia"));
@@ -667,6 +685,22 @@ public class Kho {
     	}
     	
     	return List;
+    }
+
+    public void search(){
+        String ma;
+        System.out.print("Nhap ma san pham can tim: ");
+        ma = sc.nextLine();
+        int count = 0, i;
+        for (i=0;i<List.length;i++){
+            if (ma.equals(List[i].MaSP))
+            {
+                System.out.println(List[i].toStringL());
+                count++;
+            }
+            if (count==0)
+                System.out.println("Khong co san pham ban tim trong kho.");
+        }
     }
 
     public void searchH_G(){

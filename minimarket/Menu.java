@@ -384,7 +384,7 @@ public class Menu {
                                 x1 = Integer.parseInt(sc.nextLine());
                                 switch(x1){
                                     case 1 -> { 
-                                        objSP.searchTL();
+                                        objSP.search();
                                         break;
                                     }
                                     case 2 -> {
@@ -528,7 +528,17 @@ public class Menu {
                     }        
                     break;
                 }
-                case 10 -> {break;}
+                case 10 -> {
+                    while(true)
+                    {
+                        System.out.println("Ban co muon luu lai thay doi cua danh sach san pham va nhan cong khong ? [y/n]");
+                        String c=sc.nextLine();
+                        if(c.equals("y")) {objSP.rewriteFILE();objNC.rewriteFILE();break;}
+                        if(c.equals("n")) {break;}
+                        System.out.println("Lua chon khong dung vui long nhap lai !");
+                    }
+                    break;
+                }
             }
         }
 }     

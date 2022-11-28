@@ -4,6 +4,15 @@ import java.util.Scanner;
 import java.io.BufferedWriter;
 import java.io.FileWriter;
 
+interface subMenu{
+    public void input_List();
+    public void output_List();
+    public void search();
+    public void readFILE();
+    public void writeFILE();
+    public void rewriteFILE();
+}
+
 class KhachHang{
     private String Hoten;
     private String SDT;
@@ -117,7 +126,7 @@ public class GioHang{
     Nhancong Emp;
     int n;
     Don List[];
-    int MaHĐ;
+    private int MaHĐ;
     private static int countUP=0;
     long Total;
     java.util.Date Date;
@@ -138,6 +147,10 @@ public class GioHang{
         this.List=List;
         countUP++;
         MaHĐ=countUP;
+    }
+
+    public int getMaHD(){
+        return MaHĐ;
     }
 
     public KhachHang getCus(){
@@ -282,10 +295,10 @@ class GioHangList{
         System.out.printf("%-10s %-50s %-20s\n","Ma don","Thoi gian than toan","Thanh tien");
         for(i=0;i<List.length;i++)
         {
-            System.out.printf("%-10s %-50s %-20s\n",List[i].MaHĐ,List[i].Date,List[i].Total);
+            System.out.printf("%-10s %-50s %-20s\n",List[i].getMaHD(),List[i].Date,List[i].Total);
             Total=Total+List[i].Total;
         }
-        System.out.println("||===========================================================||");
+        System.out.println("||==========================================||");
         System.out.printf("Tong danh thu: %d\n",Total);
     }
 
@@ -303,18 +316,17 @@ class GioHangList{
         while(true){
             System.out.print("Hay chon ma so khach hang muon lay hoa don : ");
             int k=Integer.parseInt(sc.nextLine());
-            k=k-1;
             for(i=0;i<List.length;i++)
             {
                 if(List[i].Cus.getMaKH()==k)
                 {
                     temp=k;
+                    List[temp-1].printHD();
                     break;
                 }
             }
             if(temp!=-1) {break;}
             else {System.out.println("Ma so vua nhap khong ton tai vui long nhap lai !");}      
         }
-        List[temp].printHD();
     }
 }

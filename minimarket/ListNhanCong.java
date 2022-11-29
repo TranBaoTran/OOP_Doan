@@ -94,7 +94,7 @@ public class ListNhanCong implements subMenu{
 
     public void output_List(){
         System.out.println("Danh sach toan bo nhan cong : ");
-//        System.out.printf("%-10s %-20s %-20s %-20s %-20s \n","Ma","Ten","SDT","Ngay BD","Luong");
+        System.out.printf("%-10s %-20s %-20s %-20s %-20s \n","Ma","Ten","SDT","Ngay BD","Luong");
         for(int i=0;i<List.length;i++)
         {
             System.out.println(List[i].toString());

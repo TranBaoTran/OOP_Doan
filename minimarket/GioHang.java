@@ -292,7 +292,7 @@ class GioHangList{
 
     public void ThongKeDH(){
         int i;
-        System.out.printf("%-10s %-50s %-20s\n","Ma don","Thoi gian than toan","Thanh tien");
+        System.out.printf("%-10s %-50s %-20s\n","Ma don","Thoi gian thanh toan","Thanh tien");
         for(i=0;i<List.length;i++)
         {
             System.out.printf("%-10s %-50s %-20s\n",List[i].getMaHD(),List[i].Date,List[i].Total);

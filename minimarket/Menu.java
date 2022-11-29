@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package minimarket;
 
 import java.io.IOException;
@@ -17,10 +13,11 @@ public class Menu {
             System.out.println("||4. Them N doi tuong vao danh sach         ||");
             System.out.println("||5. Xoa 1 doi tuong khoi danh sach         ||");
             System.out.println("||6. Tim kiem trong danh sach               ||");
-            System.out.println("||7. Mua hang                               ||");
-            System.out.println("||8. Thong ke                               ||");
-            System.out.println("||9. Xuat thong tin duoi dang file text     ||");
-            System.out.println("||10.Thoat                                  ||");
+            System.out.println("||7. Sua thong tin danh sach                ||");
+            System.out.println("||8. Mua hang                               ||");
+            System.out.println("||9. Thong ke                               ||");
+            System.out.println("||10. Xuat thong tin duoi dang file text    ||");
+            System.out.println("||11.Thoat                                  ||");
             System.out.println("||==========================================||");
             System.out.println();
         }
@@ -63,7 +60,7 @@ public class Menu {
             System.out.println();
             System.out.println("1. Xuat danh sach toan Kho");
             System.out.println("2. Xuat danh sach My Pham-MP");
-            System.out.println("3. Xuat danh sach Trang Phuc-TT");
+            System.out.println("3. Xuat danh sach Thoi Trang-TT");
             System.out.println("4. Xuat danh sach Van Phong Pham-PP");
             System.out.println("5. Xuat danh sach Thuc Pham-TP");
             System.out.println("6. Xuat danh sach Thuc Uong-TU");
@@ -107,7 +104,7 @@ public class Menu {
         public static void menu_tim(){
             System.out.println();
             System.out.println("||============ Menu Tim trong DS ===========||");
-            System.out.println("||1. Tim theo nhieu khoa                    ||");
+            System.out.println("||1. Tim theo nhieu khoa voi san pham       ||");
             System.out.println("||2. Tim theo ma                            ||");
             System.out.println("||3. Thoat phan Tim trong DS                ||");
             System.out.println();
@@ -119,6 +116,15 @@ public class Menu {
             System.out.println("1. Voi nhan cong");
             System.out.println("2. Voi san pham");
             System.out.println("3. Thoat");
+            System.out.println();
+        }
+
+        public static void menu_sua(){
+            System.out.println();
+            System.out.println("||======== Menu sua thong tin DS ==========||");
+            System.out.println("||1. Sua 1 nhan cong                       ||");
+            System.out.println("||2. Sua 1 san pham                        ||");
+            System.out.println("||3. Thoat phan Sua thong tin DS           ||");
             System.out.println();
         }
 
@@ -146,7 +152,7 @@ public class Menu {
         GioHangList objGH=new GioHangList();
         objGH.setDefault();
         int x=0;
-        while (x!=10){ 
+        while (x!=11){ 
             menu_main();
             Scanner sc=new Scanner(System.in);
             System.out.print("Nhap lua chon: ");
@@ -384,7 +390,7 @@ public class Menu {
                                 x1 = Integer.parseInt(sc.nextLine());
                                 switch(x1){
                                     case 1 -> { 
-                                        objSP.search();
+                                        objSP.searchTL();
                                         break;
                                     }
                                     case 2 -> {
@@ -401,7 +407,7 @@ public class Menu {
                                                 }
                                                 case 2 ->
                                                 {
-                                                    objSP.searchH_G();
+                                                    objSP.search();
                                                     break;
                                                 }
                                                 case 3 -> {
@@ -416,8 +422,29 @@ public class Menu {
                             }
                             break;
                 }
-                //7. MUA HANG
-                case 7 -> {
+                //7. SUA
+                case 7 ->{
+                    int x1=0;
+                    while (x1!=3){
+                        menu_sua();
+                        System.out.print("Nhap lua chon: ");
+                        x1 = Integer.parseInt(sc.nextLine());
+                        switch(x1){
+                            case 1 -> { 
+                                objNC.adjust();
+                                break;
+                            }
+                            case 2 -> {
+                                objSP.adjust();
+                                break;
+                            }
+                            case 3 -> {break;}
+                        }
+                    }
+                    break;
+                }
+                //8. MUA HANG
+                case 8 -> {
                     objSP.output_List();
                     System.out.println("Hay nhap so luong san pham muon mua : ");
                     int n=Integer.parseInt(sc.nextLine());
@@ -475,8 +502,8 @@ public class Menu {
                     objGH.List=objGH.input(KH);
                     break;
                 }
-                //THONG KE
-                case 8 -> {
+                //9.THONG KE
+                case 9 -> {
                     int x1=0;
                             while (x1!=3){
                                 TK();
@@ -498,7 +525,8 @@ public class Menu {
                             }        
                     break;
                 }
-                case 9 -> {
+                //10.Xuat file text
+                case 10 -> {
                     int x1=0;
                     while (x1!=4){
                         fileTxt();
@@ -528,7 +556,8 @@ public class Menu {
                     }        
                     break;
                 }
-                case 10 -> {
+                //11.Thoat va luu
+                case 11 -> {
                     while(true)
                     {
                         System.out.println("Ban co muon luu lai thay doi cua danh sach san pham va nhan cong khong ? [y/n]");

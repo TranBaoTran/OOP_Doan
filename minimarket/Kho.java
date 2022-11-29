@@ -29,6 +29,7 @@ public class Kho implements subMenu{
         this.List=List;
     }
 
+    @Override
     public void input_List(){
         System.out.println("Hay nhap so luong san pham :");
         n=Integer.parseInt(sc.nextLine());
@@ -86,8 +87,10 @@ public class Kho implements subMenu{
             }
             }while(flag);
         }
+        System.out.println("Da nhap san pham thanh cong!");
     }
 
+    @Override
     public void readFILE(){
         try{
             FileReader fr =new FileReader(readF);
@@ -257,7 +260,7 @@ public class Kho implements subMenu{
 
     public void output_ListMP(){
         System.out.println("Danh sach cac mat hang my pham : ");
-        System.out.printf("%-10s %-50s %-20s %-20s %-20s %-10s %-15s %-20s\n","Ma","Ten","NSX","HSD","Hang","SL","Gia","Loai");
+        System.out.printf("%-10s %-50s %-20s %-20s %-20s %-10s %-15s %20s\n","Ma","Ten","NSX","HSD","Hang","SL","Gia","Loai");
         for(int i=0;i<List.length;i++)
         {
             if(List[i].MaSP.substring(0,2).equals("MP"))
@@ -315,6 +318,7 @@ public class Kho implements subMenu{
         }
     }
 
+    @Override
     public void output_List(){
         System.out.println("Danh sach cac mat hang trong kho : ");
         System.out.printf("%-10s %-50s %-20s %-20s %-20s %-10s %-15s\n","Ma","Ten","NSX","HSD","Hang","SL","Gia");
@@ -683,10 +687,11 @@ public class Kho implements subMenu{
     			List[viTri].Input();
     		}
     	}
-    	
+    	System.out.println("Sua thong tin thanh cong");
     	return List;
     }
 
+    @Override
     public void search(){
         String ma;
         System.out.print("Nhap ma san pham can tim: ");
@@ -698,9 +703,9 @@ public class Kho implements subMenu{
                 System.out.println(List[i].toStringL());
                 count++;
             }
-            if (count==0)
-                System.out.println("Khong co san pham ban tim trong kho.");
         }
+        if (count==0)
+                System.out.println("Khong co san pham ban tim trong kho.");
     }
 
     public void searchH_G(){
@@ -715,10 +720,10 @@ public class Kho implements subMenu{
         int count = 0;
         for (int i=0;i<n;i++)
         {
-            if (brand.equals(List[i].Hang) && (fee1<=List[i].Gia && fee2>=List[i].Gia))
+            if (brand.equalsIgnoreCase(List[i].Hang) && (fee1<=List[i].Gia && fee2>=List[i].Gia))
             {
                 System.out.println(List[i].toString());
-                count++;
+                count++;brand.equalsIgnoreCase(List[i].Hang);
             }
         }
         if (count == 0)
@@ -750,9 +755,9 @@ public class Kho implements subMenu{
                     {
                         if (List[i] instanceof MyPham)
                         {
-                            String brandr = List[i].Hang();
+                            String brandr = List[i].Hang(); 
                             String Loair = List[i].Loai();
-                            if (brand.equals(brandr) && type.equals(Loair))
+                            if (brand.equalsIgnoreCase(brandr) && type.equalsIgnoreCase(Loair))
                             {
                                 System.out.println(List[i].toStringL());
                                 count++;
@@ -774,14 +779,17 @@ public class Kho implements subMenu{
                         System.out.print("Nhap gioi tinh trang phuc (Nam: 1|Nu: 0): ");
                         sex = Integer.parseInt(sc.nextLine());
                     }while (sex!=0 && sex!=1);
+                    Boolean sex1=false;
+                    if (sex == 1) sex1=true;
+                    else sex1 = false;
                     int count = 0;
                     for (int i=0;i<n;i++)
                     {
                         if (List[i] instanceof ThoiTrang)
                         {
                             String brandr = List[i].Hang();
-                            int sexr = List[i].GioiTinh();
-                            if (brand.equals(brandr) && sex==sexr)
+                            Boolean sexr = List[i].GioiTinh();
+                            if (brand.equalsIgnoreCase(brandr) && sexr == sex1)
                             {
                                 System.out.println(List[i].toStringL());
                                 count++;
@@ -807,7 +815,7 @@ public class Kho implements subMenu{
                         {
                             String mar = List[i].ChatLieu();
                             String obr = List[i].DoiTuong();
-                            if (material.equals(mar) && ob.equals(obr))
+                            if (material.equalsIgnoreCase(mar) && ob.equalsIgnoreCase(obr))
                             {
                                 System.out.println(List[i].toStringL());
                                 count++;
@@ -835,7 +843,7 @@ public class Kho implements subMenu{
                         if (List[i] instanceof ThucPham)
                         {
                             String cbr = List[i].CheBien();
-                            if (cb.equals(cbr) && (fee1<=List[i].Gia && fee2>=List[i].Gia))
+                            if (cb.equalsIgnoreCase(cbr) && (fee1<=List[i].Gia && fee2>=List[i].Gia))
                             {
                                 System.out.println(List[i].toStringL());
                                 count++;
@@ -861,7 +869,7 @@ public class Kho implements subMenu{
                         {
                             String typer = List[i].Loai();
                             String dgr = List[i].DongGoi();
-                            if (type.equals(typer) && dg.equals(dgr))
+                            if (type.equalsIgnoreCase(typer) && dg.equalsIgnoreCase(dgr))
                             {
                                 System.out.println(List[i].toStringL());
                                 count++;

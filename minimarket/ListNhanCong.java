@@ -70,31 +70,31 @@ public class ListNhanCong implements subMenu{
 
     public void output_ListQL(){
         System.out.println("Danh sach cac quan ly : ");
-        System.out.printf("%-10s %-20s %-20s %-20s %-20s %-10s\n","Ma","Ten","SDT","Ngay BD","Luong","Kinh nghiem");
+        System.out.printf("%-10s %-20s %-20s %-19s %-20s %-20s %s \n","Ma","Ten","SDT","Ngay BD","Kinh nghiem","So ngay nghi","Luong");
         for(int i=0;i<List.length;i++)
         {
             if(List[i] instanceof QuanLy)
             {
-               List[i].toString();
+               System.out.println(List[i].toString());;
             }
         }
     }
 
     public void output_ListNV(){
         System.out.println("Danh sach cac nhan vien : ");
-        System.out.printf("%-10s %-20s %-20s %-20s %-20s %-10s %-15s \n","Ma","Ten","SDT","Ngay BD","Luong","Ca","Vai tro");
+        System.out.printf("%-10s %-20s %-20s %-19s %-15s %-20s %-15s \n","Ma","Ten","SDT","Ngay BD","Luong","Ca","Vai tro");
         for(int i=0;i<List.length;i++)
         {
             if(List[i] instanceof NhanVien)
             {
-               List[i].toString();
+            	System.out.println(List[i].toString());;
             }
         }
     }
 
     public void output_List(){
         System.out.println("Danh sach toan bo nhan cong : ");
-        //System.out.printf("%-10s %-20s %-20s %-20s %-20s \n","Ma","Ten","SDT","Ngay BD","Luong");
+//        System.out.printf("%-10s %-20s %-20s %-20s %-20s \n","Ma","Ten","SDT","Ngay BD","Luong");
         for(int i=0;i<List.length;i++)
         {
             System.out.println(List[i].toString());
@@ -256,6 +256,120 @@ public class ListNhanCong implements subMenu{
         }
         if (count == 0)
             System.out.println("Khong co nguoi nay trong danh sach nhan su.");
+    }
+
+    public Nhancong[] adjust() {
+    	boolean flag=false;
+    	boolean kiemTraMaTonTai;
+    	byte choice=0;
+    	int viTri=0;
+    	String maTimKiem = "";
+    	do {
+    		kiemTraMaTonTai=false;
+    		System.out.print("Nhap ma nhan cong can tim : ");
+        	maTimKiem = sc.nextLine();
+        	for(int i=0;i<List.length;i++) {
+        		if (maTimKiem.equals(List[i].getMaNC())) {
+        			viTri = i;
+        			flag = true;
+        		}
+        	}
+        	if ((!maTimKiem.substring(0,2).equals("NV") || !maTimKiem.substring(0,2).equals("QL")) && maTimKiem.substring(2).length()!=3 || !flag) 
+        	{	
+        		System.out.println("Dinh dang ma san pham khong dung hoac ma khong ton tai! Vui long nhap lai!");
+        		flag = false;
+        	}
+        	else kiemTraMaTonTai = true;
+    	}while (!kiemTraMaTonTai);
+    	if (flag) {
+    		choice = 0;
+    		System.out.println("\n\n-Thong tin can thay doi :");
+    		System.out.println("1. Thong tin chung");
+    		System.out.println("2. Thong tin rieng cua nhan cong");
+    		System.out.println("3. Toan bo thong tin");
+    		System.out.println("0 hoac Enter. Thoat, khong thay doi nưa");
+    		do {
+    			System.out.print("Lua chon cua ban : ");
+    			choice = Byte.parseByte(sc.nextLine());
+    			if (choice < 0 || choice >3) System.out.println("Lua chon khong phu hop! Moi nhap lai");
+    		}while (choice < 0 || choice >3);
+    		if (choice == 1) {
+    			byte luaChon=0;
+    			System.out.println("\n1. Thay doi|| Other. Khong thay doi");
+    			System.out.print("\nThay doi ten? :");
+    			luaChon = Byte.parseByte(sc.nextLine());
+    			if (luaChon == 1) {
+    				System.out.print("Hay nhap ten nhan cong : ");
+    				List[viTri].setTen(sc.nextLine());
+    				luaChon = 0;
+    			}
+    			
+    			System.out.print("\nThay doi ma nhan cong? :"); // Doi NXS
+    			luaChon = Byte.parseByte(sc.nextLine());
+    			if (luaChon == 1) {
+    				System.out.print("Hay nhap ma nhan cong : ");
+    				List[viTri].setMaNC(sc.nextLine());;
+    				luaChon = 0;
+    			}
+    			
+    			System.out.print("\nThay doi ngay bat dau? :"); // Doi han su dung
+    			luaChon = Byte.parseByte(sc.nextLine());
+    			if (luaChon == 1) {
+    				System.out.print("Hay nhap ngay bat dau : ");
+    				List[viTri].getNgayBD().inputDATE();;
+    				luaChon = 0;
+    			}
+    			
+    			System.out.print("\nThay doi SDT? :"); // Doi ten hang
+    			luaChon = Byte.parseByte(sc.nextLine());
+    			if (luaChon == 1) {
+    				System.out.print("Hay nhap SDT : ");
+    				List[viTri].setSDT(sc.nextLine());
+    				luaChon = 0;
+    			}
+
+    		}
+    		else if (choice == 2) {
+    			byte luaChon=0;
+    			System.out.println("\n1. Thay doi || Other. Khong thay doi");
+    			
+    			if (List[viTri] instanceof NhanVien) { // MỸ PHẨM
+    				System.out.print("\nThay doi so ca? :");
+        			luaChon = Byte.parseByte(sc.nextLine());
+        			if (luaChon == 1) {
+        				System.out.print("Hay nhap so ca : ");
+        				((NhanVien) List[viTri]).setCa(Integer.parseInt(sc.nextLine()));
+        			}
+        			System.out.print("\nThay doi vai tro? :");
+        			luaChon = Byte.parseByte(sc.nextLine());
+        			if (luaChon == 1) {
+        				System.out.print("Hay nhap vai tro : ");
+        				((NhanVien) List[viTri]).setVaiTro(sc.nextLine());
+        			}
+    			}
+    			else if (List[viTri] instanceof QuanLy) { //THỜI TRANG
+    				System.out.print("\nThay doi so thang da lam? :");
+        			luaChon = Byte.parseByte(sc.nextLine());
+        			if (luaChon == 1) {
+        		        System.out.println("Hay nhap so thang da lam : ");
+        		        ((QuanLy) List[viTri]).setKinhNghiem(Integer.parseInt(sc.nextLine()));
+        			}
+        			System.out.print("\nThay doi so ngay nghi trong thang? :");
+        			luaChon = Byte.parseByte(sc.nextLine());
+        			if (luaChon == 1) {
+        		        System.out.println("Hay nhap so ngay nghi trong thang : ");
+        		        ((QuanLy) List[viTri]).setRest(Integer.parseInt(sc.nextLine()));
+        			}
+    			}
+    			
+    		}
+    		
+    		else if (choice == 3) {
+    			List[viTri].Input();
+    		}
+    	}
+    	
+    	return List;
     }
 
     public void readFILE(){

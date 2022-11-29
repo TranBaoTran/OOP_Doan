@@ -218,8 +218,8 @@ public class Sanpham {
     public String Loai(){
         return null;
     }
-    public int GioiTinh(){
-        return 0;
+    public Boolean GioiTinh(){
+        return true;//nam
     }
     public String ChatLieu(){
         return null;
@@ -265,6 +265,7 @@ class MyPham extends Sanpham{
         }
     }
 
+    @Override
     public void Input(){
        super.Input();
        System.out.print("Nhap loai my pham : ");
@@ -273,13 +274,19 @@ class MyPham extends Sanpham{
 
     @Override
     public String toStringL(){
-        return super.toString()+String.format(" %-20s",Loai);
+        return super.toString()+String.format(" %20s",Loai);
     }
 
     @Override
     public String toStringRE(){
         return super.toStringRE()+String.format(",%s",Loai);
     }
+    
+    @Override
+    public String Loai(){
+        return (Loai);
+    }
+    
 }
 
 class ThoiTrang extends Sanpham{
@@ -314,6 +321,7 @@ class ThoiTrang extends Sanpham{
         }
     }
 
+    @Override
     public void Input(){
         super.Input();
         boolean flag=true;
@@ -353,6 +361,12 @@ class ThoiTrang extends Sanpham{
     public String toStringRE(){
         return super.toStringRE()+String.format(",%s",GioiTinh);
     }
+    
+    @Override
+    public Boolean GioiTinh(){
+        return (GioiTinh);
+    }
+    
 }
 
 class VPPham extends Sanpham{
@@ -395,6 +409,7 @@ class VPPham extends Sanpham{
         }
     }
 
+    @Override
     public void Input(){
         super.Input();
         System.out.print("Hay nhap loai chat lieu : ");
@@ -412,6 +427,17 @@ class VPPham extends Sanpham{
     public String toStringRE(){
         return super.toStringRE()+String.format(",%s,%s",ChatLieu,DoiTuong);
     }
+    
+    @Override
+    public String ChatLieu(){
+        return (ChatLieu);
+    }
+    
+    @Override
+    public String DoiTuong(){
+        return (DoiTuong);
+    }
+
 
 }
 
@@ -445,6 +471,7 @@ class ThucPham extends Sanpham{
         }
     }
 
+    @Override
     public void Input(){
         super.Input();
         System.out.print("Hay nhap cach che bien : ");
@@ -460,6 +487,11 @@ class ThucPham extends Sanpham{
     public String toStringRE(){
         return super.toStringRE()+String.format(",%s",CheBien);
     }
+    @Override
+    public String CheBien(){
+        return (CheBien);
+    }
+
 }
 
 class ThucUong extends Sanpham{
@@ -502,6 +534,7 @@ class ThucUong extends Sanpham{
         }
     }
 
+    @Override
     public void Input(){
         super.Input();
         System.out.print("Hay nhap loai thuc uong : ");
@@ -512,11 +545,21 @@ class ThucUong extends Sanpham{
 
     @Override
     public String toStringL(){
-        return super.toString()+String.format(" %-20s -%20s",Loai,DongGoi);
+        return super.toString()+String.format(" %-20s %-20s",Loai,DongGoi);
     }
 
     @Override
     public String toStringRE(){
         return super.toStringRE()+String.format(",%s,%s",Loai,DongGoi);
     }
+    
+    @Override
+    public String Loai(){
+        return (Loai);
+    }
+    @Override
+    public String DongGoi(){
+        return (DongGoi);
+    }
+
 }
